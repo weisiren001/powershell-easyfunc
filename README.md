@@ -12,7 +12,7 @@
 直接运行以下命令，无需克隆仓库：
 
 ```powershell
-curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
 ```
 
 > **说明**：该命令会从 GitHub 下载并执行安装脚本，自动获取最新的函数定义。
@@ -49,7 +49,7 @@ curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/mai
 **网络方式**（推荐）：
 
 ```powershell
-curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
 ```
 
 **本地方式**：
