@@ -12,7 +12,7 @@
 直接运行以下命令，无需克隆仓库：
 
 ```powershell
-curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/install.ps1 | iex
+curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
 ```
 
 > **说明**：该命令会从 GitHub 下载并执行安装脚本，自动获取最新的函数定义。
@@ -49,7 +49,7 @@ curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/mai
 **网络方式**（推荐）：
 
 ```powershell
-curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/install.ps1 | iex
+curl -fsSL https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex
 ```
 
 **本地方式**：
@@ -73,8 +73,8 @@ pwsh .\install.ps1
 ## 工作原理
 
 - `easyfunc.ps1` 定义了受管理的函数块，包裹在 `# <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>` 与 `# <<<EASYFUNC_MANAGED_BLOCK_END>>>` 之间。
-- `install.ps1` 会读取这段区块，写入或替换到选定的 Profile 文件中，同时支持卸载移除。
-- 网络安装时，`install.ps1` 检测到本地没有 `easyfunc.ps1` 会自动从 GitHub raw URL 下载到临时文件，然后继续安装流程。
+- `install.ps1` 适用于本地安装，会读取这段区块，写入或替换到选定的 Profile 文件中，同时支持卸载移除。
+- `web-install.ps1` 是专门用于网络安装的引导脚本，无参数声明，可通过 `curl | iex` 管道执行，会自动从 GitHub 下载最新的 `easyfunc.ps1` 并完成安装。
 
 ## 开发
 
