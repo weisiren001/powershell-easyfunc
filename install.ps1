@@ -1,9 +1,23 @@
 param(
-    [string]$SourceFile = (Join-Path $PSScriptRoot 'easyfunc.ps1')
+    [string]$SourceFile = (Join-Path $PSScriptRoot 'easyfunc.ps1'),
+    [string]$RemoteUrl = 'https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/easyfunc.ps1'
 )
 
 $startTag = '# <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>'
 $endTag = '# <<<EASYFUNC_MANAGED_BLOCK_END>>>'
+
+# 如果本地源文件不存在，尝试从远程 URL 下载
+if (-not (Test-Path -LiteralPath $SourceFile)) {
+    Write-Host '本地源文件不存在，尝试从远程获取...' -ForegroundColor Cyan
+    try {
+        $tempFile = Join-Path $env:TEMP "easyfunc_$(Get-Random).ps1"
+        Invoke-WebRequest -Uri $RemoteUrl -OutFile $tempFile -UseBasicParsing
+        $SourceFile = $tempFile
+        Write-Host "已从远程下载到临时文件：$tempFile" -ForegroundColor Green
+    } catch {
+        throw "无法从远程 URL 下载源文件：$($_.Exception.Message)"
+    }
+}
 
 function Get-EasyFuncBlock {
     param(
