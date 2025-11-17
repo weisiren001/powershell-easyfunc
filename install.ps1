@@ -1,3 +1,11 @@
+<#
+MIT License
+Copyright (c) 2025 Chen Xuanyi
+
+This file is part of powershell-easyfunc and is released under the MIT License.
+See the LICENSE file in the project root for details.
+#>
+
 param(
     [string]$SourceFile = (Join-Path $PSScriptRoot 'easyfunc.ps1'),
     [string]$RemoteUrl = 'https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/easyfunc.ps1'

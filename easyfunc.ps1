@@ -1,3 +1,11 @@
+<#
+MIT License
+Copyright (c) 2025 Chen Xuanyi
+
+This file is part of powershell-easyfunc and is released under the MIT License.
+See the LICENSE file in the project root for details.
+#>
+
 # <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>
 function wr {
     param(

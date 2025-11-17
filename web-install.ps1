@@ -1,3 +1,11 @@
+<#
+MIT License
+Copyright (c) 2025 Chen Xuanyi
+
+This file is part of powershell-easyfunc and is released under the MIT License.
+See the LICENSE file in the project root for details.
+#>
+
 & {
     # Wrapped in script block for pipe execution compatibility
     $ErrorActionPreference = 'Stop'

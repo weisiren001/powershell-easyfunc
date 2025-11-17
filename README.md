@@ -88,3 +88,7 @@ pwsh .\install.ps1
    以便把最新区块同步到 Profile。
 
 欢迎提交 Issue 或 PR 以扩展更多便捷函数！
+
+## 许可证
+
+本项目采用 [MIT License](./LICENSE)。你可以自由使用、修改与分发，但请保留原作者版权声明。
