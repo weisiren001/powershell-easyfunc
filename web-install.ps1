@@ -6,6 +6,17 @@
     $startTag = '# <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>'
     $endTag = '# <<<EASYFUNC_MANAGED_BLOCK_END>>>'
     
+    # Check if running as administrator
+    function Test-IsAdministrator {
+        try {
+            $current = [Security.Principal.WindowsIdentity]::GetCurrent()
+            $principal = New-Object 'Security.Principal.WindowsPrincipal' $current
+            return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+        } catch {
+            return $false
+        }
+    }
+    
     Write-Host ''
     Write-Host 'PowerShell EasyFunc - Web Installation' -ForegroundColor Cyan
     Write-Host ''
@@ -122,12 +133,63 @@
     # Install to selected profiles
     $targets = $selected | Sort-Object -Unique | ForEach-Object { $candidates[$_ - 1] }
     
+    # Check if any target requires admin privileges
+    $adminTargets = @(
+        $targets | Where-Object {
+            $env:ProgramFiles -and $_.Path.StartsWith($env:ProgramFiles, [System.StringComparison]::OrdinalIgnoreCase)
+        }
+    )
+    
+    if ($adminTargets.Count -gt 0 -and -not (Test-IsAdministrator)) {
+        Write-Host ''
+        Write-Host 'WARNING: The following profiles require administrator privileges:' -ForegroundColor Yellow
+        foreach ($t in $adminTargets) {
+            Write-Host "  - $($t.Path)" -ForegroundColor Yellow
+        }
+        Write-Host ''
+        Write-Host 'Options:' -ForegroundColor Cyan
+        Write-Host '  Y - Restart PowerShell as administrator and rerun the command' -ForegroundColor Cyan
+        Write-Host '  N - Continue without admin profiles (skip them)' -ForegroundColor Cyan
+        Write-Host '  Q - Cancel installation' -ForegroundColor Cyan
+        
+        $choice = (Read-Host 'Your choice (Y/N/Q)').Trim().ToLower()
+        
+        if ($choice -in @('y', 'yes')) {
+            Write-Host ''
+            Write-Host 'Please run the following command in an administrator PowerShell:' -ForegroundColor Green
+            Write-Host '  iwr -useb https://raw.githubusercontent.com/weisiren001/powershell-easyfunc/main/web-install.ps1 | iex' -ForegroundColor White
+            Write-Host ''
+            Write-Host 'To open PowerShell as administrator:' -ForegroundColor Cyan
+            Write-Host '  1. Search for "PowerShell" in Start Menu' -ForegroundColor Gray
+            Write-Host '  2. Right-click and select "Run as administrator"' -ForegroundColor Gray
+            return
+        } elseif ($choice -in @('q', 'quit', 'exit')) {
+            Write-Host 'Installation cancelled' -ForegroundColor Yellow
+            return
+        } else {
+            Write-Host ''
+            Write-Host 'Continuing with current privileges (admin profiles will be skipped)...' -ForegroundColor Yellow
+        }
+    }
+    
     Write-Host ''
     Write-Host 'Installing...' -ForegroundColor Cyan
     
     foreach ($profile in $targets) {
         try {
             $profilePath = $profile.Path
+            
+            # Check if this profile requires admin privileges
+            $requiresAdmin = $false
+            if ($env:ProgramFiles -and $profilePath.StartsWith($env:ProgramFiles, [System.StringComparison]::OrdinalIgnoreCase)) {
+                $requiresAdmin = $true
+            }
+            
+            if ($requiresAdmin -and -not (Test-IsAdministrator)) {
+                Write-Host "SKIPPED [$profilePath] - requires administrator privileges" -ForegroundColor Yellow
+                continue
+            }
+            
             $profileDir = Split-Path -Path $profilePath -Parent
             
             if ($profileDir -and -not (Test-Path -LiteralPath $profileDir)) {
