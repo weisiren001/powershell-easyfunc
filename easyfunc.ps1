@@ -7,7 +7,7 @@ See the LICENSE file in the project root for details.
 #>
 
 # <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>
-function wr {
+function ewr {
     param(
         [Parameter(ValueFromRemainingArguments = $true)]
         $Patterns
@@ -15,9 +15,9 @@ function wr {
     where.exe @Patterns
 }
 
-Set-Alias wrs wr
+Set-Alias ewrs ewr
 
-function open {
+function eopen {
     param(
         [Parameter(ValueFromRemainingArguments = $true)]
         [string[]]$Targets
