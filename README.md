@@ -1,9 +1,6 @@
 # powershell-easyfunc
 
-一组可快速安装到 PowerShell Profile 的便捷函数，当前包含：
-
-- `wr` / `wrs`：包装 `where.exe`，可更友好地查找可执行文件。
-- `open`：打开文件或目录，空参数时默认打开当前目录；会自动根据目标类型选择 `explorer.exe` 或关联程序。
+一组可快速安装到 PowerShell Profile 的便捷函数。
 
 ## 快速开始
 
