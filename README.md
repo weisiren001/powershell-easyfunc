@@ -70,7 +70,7 @@ pwsh .\install.ps1
 ## 工作原理
 
 - `easyfunc.ps1` 定义了受管理的函数块，包裹在 `# <<<EASYFUNC_MANAGED_BLOCK_BEGIN_DO_NOT_EDIT_MANUALLY>>>` 与 `# <<<EASYFUNC_MANAGED_BLOCK_END>>>` 之间。
-- `install.ps1` 适用于本地安装，会读取这段区块，写入或替换到选定的 Profile 文件中，同时支持卸载移除。
+- `install.ps1` 适用于本地安装，会读取这段区块，写入或替换到选定的 Profile 文件中，同时支持卸载移除。 
 - `web-install.ps1` 是专门用于网络安装的引导脚本，无参数声明，可通过 `curl | iex` 管道执行，会自动从 GitHub 下载最新的 `easyfunc.ps1` 并完成安装。
 
 ## 开发
